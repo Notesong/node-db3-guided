@@ -1,10 +1,14 @@
 const express = require("express");
 
+const postRouter = require("../posts/post-router");
+
 const db = require("../data/db-config.js");
 
 const Users = require("./users-model.js");
 
 const router = express.Router();
+
+router.use("/:id/posts", postRouter);
 
 router.get("/", (req, res) => {
   Users.find()
@@ -32,17 +36,17 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.get("/:id/posts", (req, res) => {
-  const { id } = req.params;
+// router.get("/:id/posts", (req, res) => {
+//   const { id } = req.params;
 
-  Users.findPosts(id)
-    .then((posts) => {
-      res.json(posts);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err });
-    });
-});
+//   Users.findPosts(id)
+//     .then((posts) => {
+//       res.json(posts);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ message: err });
+//     });
+// });
 
 router.post("/", (req, res) => {
   const userData = req.body;
